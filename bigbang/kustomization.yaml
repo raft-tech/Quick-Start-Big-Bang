@@ -1,5 +1,5 @@
 bases:
-  - git::https://github.com/raft-tech/big-bang.git
+  - git::https://github.com/raft-tech/big-bang.git/base
 
 configMapGenerator:
   - name: common
