@@ -43,31 +43,31 @@ export REGISTRY1_USERNAME="littlebobbytables"
 export REGISTRY1_PASSWORD="correcthorsebatterystaple"
 ```
 
-### Create ```terraform.tfvars``` that will be gitignored (since it has secrets in it)
+Create ```terraform.tfvars``` that will be gitignored (since it has secrets in it)
 
 ```shell
 registry1_username = "${REGISTRY1_USERNAME}"
 registry1_password = "${REGISTRY1_PASSWORD}"
 ```
 
-### Linux systems may require the following for EFK to not die.
+**OPTIONAL:** Linux systems may require the following for EFK to not die.
 ```shell
 sudo sysctl -w vm.max_map_count=262144
 ```
 
-### Initialize k3d. Your system will be automatically configured to use the right KUBECONTEXT.
+Initialize k3d. Your system will be automatically configured to use the right KUBECONTEXT.
 
 ```shell
 ./init-k3d.sh
 ```
 
-### Initialize & apply terraform. This will take several minutes. 
+Initialize & apply terraform. This will take several minutes. 
 
 ```shell
 terraform init
 terraform apply --auto-approve
 ```
-### Watch the deployments using kubectl, lens, or k9s until everything is: 
+Watch the deployments using kubectl, lens, or k9s until everything is: 
 - STATUS = "Running" or "Complete"
 - READY = "True"
 
@@ -75,7 +75,7 @@ terraform apply --auto-approve
 watch -tn1 kubectl get kustomizations,hr,po -A
 ```
 
-### To get a list of http endpoints that will resolve to your localhost:
+To get a list of http endpoints that will resolve to your localhost:
 ```shell
 kubectl get virtualservices -A
 ```
@@ -95,12 +95,12 @@ kubectl get virtualservices -A
 ---
 ## Teardown
 
-### Using Teraform: Takes several minutes & reverts back to an empty cluster. However, it often leaves some custom resources.
+**OPTION 1** - Using Teraform: Takes several minutes & reverts back to an empty cluster. However, it often leaves some custom resources.
 ```shell
 terraform destroy
 ```
 
-### Using k3d: Deletes cluster leaving a clean slate. Note that you need to delete the terraform state as you did not "properly" teardown the cluster
+**OPTION 2** - Using k3d: Deletes cluster leaving a clean slate. Note that you need to delete the terraform state as you did not "properly" teardown the cluster
 ```shell
 k3d cluster delete big-bang-quick-start
 rm terraform.tfstate
