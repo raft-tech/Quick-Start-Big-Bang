@@ -13,7 +13,7 @@ networkPolicies:
   controlPlaneCidr: 172.16.0.0/12
 
 logging:
-  enabled: true
+  enabled: false
   values:
     elasticsearch:
       master:
@@ -473,7 +473,7 @@ addons:
   mattermost:
     enabled: false
     elasticsearch:
-      enabled: true
+      enabled: false
     values:
       replicaCount: 1
       resources:
