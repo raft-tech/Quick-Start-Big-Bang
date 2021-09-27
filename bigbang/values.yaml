@@ -12,6 +12,9 @@ flux:
 networkPolicies:
   controlPlaneCidr: 172.16.0.0/12
 
+eckoperator:
+  enabled: false
+
 logging:
   enabled: false
   values:
@@ -177,7 +180,7 @@ istio:
           -----END CERTIFICATE-----
 
 clusterAuditor:
-  enabled: true
+  enabled: false
   values:
     resources:
       requests:
