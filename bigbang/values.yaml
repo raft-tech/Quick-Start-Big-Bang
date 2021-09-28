@@ -50,7 +50,7 @@ istio:
   ingressGateways:
     public-ingressgateway:
       type: "NodePort"
-      kubernetesResourceSpec: {}
+      nodePortBase: 32000
   gateways:
     public:
       tls:
