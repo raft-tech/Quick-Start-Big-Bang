@@ -53,22 +53,7 @@ istio:
       nodePortBase: 32000
   gateways:
     public:
-      ports:
-        - port: 15021
-          targetPort: 15021
-          name: status-port
-          protocol: TCP
-          nodePort: 30060
-        - port: 80
-          targetPort: 8080
-          name: http2
-          protocol: TCP
-          nodePort: 30061
-        - port: 443
-          targetPort: 8443
-          name: https
-          protocol: TC
-          nodePort: 30062
+      type: NodePort
       tls:
         key: |
           -----BEGIN PRIVATE KEY-----
