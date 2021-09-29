@@ -11,7 +11,10 @@ This is a small repo to help quickly test basic concepts of Big Bang on a local 
 What you need:
 
 - [Docker](https://docs.docker.com/get-started/)
-- [k3d](https://github.com/rancher/k3d)
+  - [Podman](https://podman.io) is also usable with kind.
+- One of:
+  - [k3d](https://github.com/rancher/k3d)
+  - [kind](https://kind.sigs.k8s.io)
 - [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
 - VM or Machine with 
   - Bare minimum: 6 logical cpu cores and 16GB RAM
@@ -46,6 +49,9 @@ sudo sysctl -w vm.max_map_count=262144
 # Initialize k3d. Your system will be automatically configured to use the right
 # KUBECONTEXT.
 ./init-k3d.sh
+
+# You can also use kind (may have to make edits for non-linux systems)
+# ./init-kind.sh
 
 # Initialize & apply terraform. This will take several minutes.
 # If you want to watch it happen use the next command under 
@@ -117,3 +123,51 @@ No providers.
 | <a name="output_external_load_balancer"></a> [external\_load\_balancer](#output\_external\_load\_balancer) | JSON array with information on all LoadBalancer services in the istio-system namespace. Example output:<pre>[<br>  {<br>    "name": "public-ingressgateway",<br>    "ip": "192.0.2.0",<br>    "hostname": "null"<br>  },<br>  {...}<br>]</pre> |
 | <a name="output_istio_gw_ip"></a> [istio\_gw\_ip](#output\_istio\_gw\_ip) | DEPRECATED - Kept for backwards compatibility reasons, will be removed later. Returns the IP of the first LoadBalancer found in the istio-system namespace |
 <!-- END_TF_DOCS -->
+
+
+### kind + Podman Rootless
+
+[kind](https://kind.sigs.k8s.io) can run using rootless Podman (or Docker). See [their guide](https://kind.sigs.k8s.io/docs/user/rootless) on setting this up.
+
+
+#### Running on Linux
+
+Running this on a Linux system requires a few changes, mostly around open file limits.
+See their guide on rootless and [known issues](https://kind.sigs.k8s.io/docs/user/known-issues/) for starting
+information.
+You may also have to make the following additions/edits:
+
+Add/edit `/etc/systemd/system.conf.d/limits.conf` and `/etc/systemd/user.conf.d/limits.conf` to contain:
+
+```ini
+[Manager]
+DefaultLimitNOFILE=65536
+```
+
+Edit `/etc/sysctl.conf` or add/edit a file under `/etc/sysctl.d/` to contain:
+
+```ini
+vm.max_map_count = 262144
+fs.inotify.max_user_watches = 524288
+fs.inotify.max_user_instances = 512
+```
+
+For podman, edit `/usr/share/containers/containers.conf` to contain:
+
+```ini
+...
+
+# A list of ulimits to be set in containers by default, specified as
+# "<ulimit name>=<soft limit>:<hard limit>", for example:
+# "nofile=1024:2048"
+# See setrlimit(2) for a list of resource names.
+# Any limit not specified here will be inherited from the process launching the
+# container engine.
+# Ulimits has limits for non privileged container engines.
+#
+default_ulimits = [
+ "nofile=65535:65535",
+]
+
+...
+```
