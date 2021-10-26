@@ -47,6 +47,10 @@ istio:
       dashboard:
         auth:
           strategy: "anonymous"
+  ingressGateways:
+    public-ingressgateway:
+      type: "NodePort"
+      nodePortBase: 32000
   gateways:
     public:
       tls:
@@ -194,7 +198,7 @@ monitoring:
     prometheusOperator:
       resources:
         requests:
-          cpu: 250m
+          cpu: 200m
           memory: 400Mi
         limits: {}
     prometheus:
@@ -545,3 +549,4 @@ addons:
           cpu: 10m
           memory: 16Mi
         limits: {}
+
