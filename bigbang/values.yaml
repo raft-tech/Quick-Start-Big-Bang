@@ -47,6 +47,12 @@ istio:
       dashboard:
         auth:
           strategy: "anonymous"
+
+ingressGateways:
+  public-ingressgateway:
+    type: "NodePort"
+    nodePortBase: 32000
+
   gateways:
     public:
       tls:
