@@ -1,5 +1,5 @@
 module "big_bang" {
-  source = "git::https://github.com/raft-tech/raft-bb-infra-tf-launcher.git?ref=18-Add-BingBang-Quick-Start-support"
+  source = "git::https://github.com/raft-tech/raft-bb-infra-tf-launcher.git?ref=raft-master"
 
   big_bang_manifest_file = "bigbang/start.yaml"
   registry_credentials = [{

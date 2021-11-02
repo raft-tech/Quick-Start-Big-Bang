@@ -14,7 +14,7 @@ spec:
   interval: 1m
   url: https://github.com/raft-tech/raft-quick-start-bb.git
   ref:
-    branch: 18-Add-BingBang-Quick-Start-support
+    branch: raft-master
 
 ---
 
