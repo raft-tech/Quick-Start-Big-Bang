@@ -12,9 +12,9 @@ metadata:
   namespace: bigbang
 spec:
   interval: 1m
-  url: https://repo1.dso.mil/platform-one/quick-start/big-bang.git
+  url: https://github.com/raft-tech/raft-quick-start-bb.git
   ref:
-    branch: master
+    branch: raft-master
 
 ---
 
