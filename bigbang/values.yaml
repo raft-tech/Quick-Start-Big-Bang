@@ -47,6 +47,12 @@ istio:
       dashboard:
         auth:
           strategy: "anonymous"
+
+ingressGateways:
+  public-ingressgateway:
+    type: "NodePort"
+    nodePortBase: 32000
+
   gateways:
     public:
       tls:
@@ -234,7 +240,7 @@ gatekeeper:
       limits: {}
 
 twistlock:
-  enabled: true
+  enabled: false
   values:
     console:
       persistence:
@@ -413,11 +419,6 @@ addons:
               memory: 200Mi
             limits: {}
       anchoreEnterpriseReports:
-        resources:
-          requests:
-            cpu: 100m
-            memory: 200Mi
-          limits: {}
         resources:
           requests:
             cpu: 100m
